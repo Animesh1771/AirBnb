@@ -3,6 +3,7 @@ package AirbnbClone.AirbnbClone.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -40,6 +41,13 @@ public class Hotel {
     private HotelContactInfo contactInfo;
 
     @Column(nullable = false)
+    @ColumnDefault("false")
     private Boolean active;
+
+    @ManyToOne
+    private User owner;
+
+    @OneToMany(mappedBy = "hotel")
+    private List<Room> rooms;
 
 }
