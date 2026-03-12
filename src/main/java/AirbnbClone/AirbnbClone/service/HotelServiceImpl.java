@@ -1,6 +1,8 @@
 package AirbnbClone.AirbnbClone.service;
 
 import AirbnbClone.AirbnbClone.dto.HotelDto;
+import AirbnbClone.AirbnbClone.dto.HotelInfoDto;
+import AirbnbClone.AirbnbClone.dto.RoomDto;
 import AirbnbClone.AirbnbClone.entity.Hotel;
 import AirbnbClone.AirbnbClone.entity.Room;
 import AirbnbClone.AirbnbClone.exception.ResourceNotFoundException;
@@ -10,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Slf4j
@@ -77,6 +81,21 @@ public class HotelServiceImpl implements HotelService{
             inventoryService.initializeRoomForAYear(room);
         }
     }
+
+    @Override
+    public HotelInfoDto getHotelInfoById(Long hotelId) {
+        Hotel hotel = hotelRepository
+                .findById(hotelId)
+                .orElseThrow(() -> new ResourceNotFoundException("Hotel not found with ID: "+hotelId));
+
+        List<RoomDto> rooms = hotel.getRooms()
+                .stream()
+                .map((element) -> modelMapper.map(element, RoomDto.class))
+                .toList();
+
+        return new HotelInfoDto(modelMapper.map(hotel, HotelDto.class), rooms);
+    }
+
 
 
 }
