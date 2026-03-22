@@ -1,7 +1,7 @@
 package AirbnbClone.AirbnbClone.controller;
 
-import AirbnbClone.AirbnbClone.dto.HotelDto;
 import AirbnbClone.AirbnbClone.dto.HotelInfoDto;
+import AirbnbClone.AirbnbClone.dto.HotelPriceDto;
 import AirbnbClone.AirbnbClone.dto.HotelSearchRequest;
 import AirbnbClone.AirbnbClone.service.HotelService;
 import AirbnbClone.AirbnbClone.service.InventoryService;
@@ -20,9 +20,9 @@ public class HotelBrowseController {
     private final HotelService hotelService;
 
     @GetMapping("/search")
-    public ResponseEntity<Page<HotelDto>> searchHotels(@RequestBody HotelSearchRequest hotelSearchRequest) {
+    public ResponseEntity<Page<HotelPriceDto>> searchHotels(@RequestBody HotelSearchRequest hotelSearchRequest) {
 
-        Page<HotelDto> page = inventoryService.searchHotels(hotelSearchRequest);
+        var page = inventoryService.searchHotels(hotelSearchRequest);
         return ResponseEntity.ok(page);
     }
 
